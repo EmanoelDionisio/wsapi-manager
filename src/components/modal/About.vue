@@ -9,7 +9,7 @@
             width="100"
             class="mb-4"
           />
-          <h3 class="mt-5 mb-2">Evolution Manager</h3>
+          <h3 class="mt-5 mb-2">WZAPI | Manager</h3>
           <p>
             {{ $t("about.description") }}
           </p>
