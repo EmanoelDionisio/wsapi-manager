@@ -17,6 +17,27 @@
                 'Nome inválido (apenas letras, números, _ e -)',
             ]"
           />
+          <v-select
+            v-if="AppStore.versionSatisfies('>=1.7.0')"
+            v-model="instance.integration"
+            :items="integrationItens"
+            :label="$t('createInstance.integration')"
+            required
+            outlined
+          />
+          <v-text-field
+            v-model="instance.number"
+            :label="$t('createInstance.number')"
+            outlined
+            v-if="instance.integration === 'WHATSAPP-BUSINESS'"
+            :rules="[
+              (v) =>
+                !!v || $t('required', { field: $t('createInstance.number') }),
+              (v) =>
+                new RegExp('^[a-zA-Z0-9_-]*$', 'i').test(v) ||
+                'Nome inválido (apenas letras, números, _ e -)',
+            ]"
+          />
           <v-text-field
             v-model="instance.token"
             label="API Key"
@@ -69,9 +90,14 @@ export default {
   data: () => ({
     dialog: false,
     valid: false,
+    integrationItens: [
+      { title: "Cloud API (Meta)", value: "WHATSAPP-BUSINESS" },
+      { title: "Baileys", value: "WHATSAPP-BAILEYS" },
+    ],
     instance: {
       instanceName: "",
       token: "",
+      integration: "",
     },
     loading: false,
     error: false,
@@ -106,6 +132,7 @@ export default {
       this.error = false;
       this.instance.instanceName = "";
       this.generateApiKey();
+      this.instance.integration = "";
     },
   },
 

@@ -81,6 +81,20 @@
             hide-details
             density="compact"
           ></v-checkbox>
+          <v-checkbox
+            class="flex-grow-0"
+            v-model="optionsData.sync_full_history"
+            :label="$t('options.syncfullhistory')"
+            hide-details="auto"
+            density="compact"
+            :disabled="loading || !AppStore.versionSatisfies('>=1.7.0')"
+            :hint="
+              !AppStore.versionSatisfies('>=1.7.0')
+                ? $t('version.availableFrom', { version: '1.7.0' })
+                : undefined
+            "
+            :persistent-hint="!AppStore.versionSatisfies('>=1.7.0')"
+          ></v-checkbox>
         </div>
       </v-form>
     </v-card-text>
@@ -104,6 +118,7 @@
 
 <script>
 import instanceController from "@/services/instanceController";
+import { useAppStore } from "@/store/app";
 
 const defaultOptions = () => ({
   reject_call: false,
@@ -112,6 +127,7 @@ const defaultOptions = () => ({
   always_online: false,
   read_messages: false,
   read_status: false,
+  sync_full_history: false,
 });
 
 export default {
@@ -123,6 +139,7 @@ export default {
     },
   },
   data: () => ({
+    AppStore: useAppStore(),
     expanded: false,
     loading: false,
     error: false,
@@ -134,6 +151,7 @@ export default {
       always_online: false,
       read_messages: false,
       read_status: false,
+      sync_full_history: false,
     },
     defaultOptionsData: {
       reject_call: false,
@@ -142,6 +160,7 @@ export default {
       always_online: false,
       read_messages: false,
       read_status: false,
+      sync_full_history: false,
     },
   }),
 
